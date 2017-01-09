@@ -3,21 +3,9 @@ atom-packages
 
 Ansible role for installing pacakges for the Atom editor
 
-Requirements
-------------
+Forked from [hnakamur/ansible-role-atom-packages](https://github.com/hnakamur/ansible-role-atom-packages) and just remove tasks/main.yml, because I prefer to use "apm" as a module to as a role.
 
-Install the Ansible, the Atom and the apm (Atom Package Manager) command.
-
-Role Variables
---------------
-
-- atom_packages_packages
-    - an array of atom packages
-
-Dependencies
-------------
-
-None.
+I'm not sure if this is a right way, please PR.
 
 Example Playbook
 -------------------------
@@ -27,18 +15,13 @@ Example Playbook
       gather_facts: no           
       sudo: no
       vars:
-        atom_packages_packages:
+        atom_packages:
           - project-manager
           - recent-files
+      tasks:
+        - name: add atom packages
+          apm: name={{ item }} state=latest
+          with_items: "{{ atom_packages }}"
+          when: atom_packages
       roles:
         - hnakamur.atom-packages
-
-License
--------
-
-MIT
-
-Author Information
-------------------
-
-Hiroaki Nakamura's contact information is at https://hnakamur.github.io/
